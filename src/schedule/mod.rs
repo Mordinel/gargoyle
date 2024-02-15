@@ -68,14 +68,14 @@ impl<'a> Schedule<'a> {
                     if entry.last_checked.is_none() || entry.last_checked.unwrap().elapsed() >= entry.wait_time {
                         entry.last_checked = Some(Instant::now());
                         match entry.monitor.check() {
-                            Action::Alert => {
+                            Action::Alert(diagnostic) => {
                                 if !entry.has_fired {
                                     // If the `Alert` fails to send the message, log the error
                                     // and don't update the `has_fired` flag, this will cause the 
                                     // `Alert` to be sent again on the next iteration.
                                     //
                                     // TODO: Add a retry mechanism for alert sending.
-                                    if let Err(e) = entry.alert.send(&entry.fire_message) {
+                                    if let Err(e) = entry.alert.send(&entry.fire_message, diagnostic) {
                                         error!("{e}");
                                     } else {
                                         entry.has_fired = true;
@@ -84,7 +84,7 @@ impl<'a> Schedule<'a> {
                             }
                             Action::Nothing => {
                                 if entry.has_fired {
-                                    if let Err(e) = entry.alert.send(&entry.recover_message) {
+                                    if let Err(e) = entry.alert.send(&entry.recover_message, None) {
                                         error!("{e}");
                                     } else {
                                         entry.has_fired = false;

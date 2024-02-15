@@ -4,7 +4,7 @@ pub mod web;
 /// The `Action` enum represents the possible actions that can occur 
 /// as a result of a monitor check.
 pub enum Action {
-    Alert,
+    Alert(Option<String>),
     Nothing,
 }
 

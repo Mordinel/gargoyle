@@ -10,6 +10,6 @@ pub use lettre::{
 
 /// The `Alert` trait represents the ability to send an alert message.
 pub trait Alert: Send + Sync {
-    fn send(&self, msg: &str) -> Result<(), String>;
+    fn send(&self, msg: &str, diagnostic: Option<String>) -> Result<(), String>;
 }
 
