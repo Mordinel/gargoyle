@@ -1,6 +1,10 @@
 # gargoyle
 A monitoring and alerting framework
 
+# usage in your code
+
+Check out the [examples directory](./examples)
+
 # setup
 
 1. Create a new user on the server
