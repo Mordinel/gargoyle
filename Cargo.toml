@@ -2,6 +2,11 @@
 name = "gargoyle"
 version = "0.1.0"
 edition = "2021"
+authors = ["Mason Soroka-Gill <Mordinel@pm.me>"]
+repository = "https://github.com/Mordinel/gargoyle"
+description = "A monitoring and alerting framework"
+readme = "README.md"
+license = "Apache-2.0"
 
 [profile.release]
 opt-level = 3
