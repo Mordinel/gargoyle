@@ -1,0 +1,21 @@
+[package]
+name = "gargoyle"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = "fat"
+
+[dependencies]
+lettre = "0.11.4"
+lettre_email = "0.9.4"
+log = "0.4.20"
+rayon = "1.8.1"
+reqwest = { version = "0.11.24", features = ["blocking"] }
+sysinfo = "0.30.5"
+
+[dev-dependencies]
+env_logger = "0.11.2"
+
