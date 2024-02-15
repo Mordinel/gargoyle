@@ -52,14 +52,16 @@ impl<'a> Schedule<'a> {
 
     /// Run the `Schedule` instance and check all the monitors for alerts or recoveries.
     pub fn run(&mut self) {
-        for entry in &mut self.entries {
-            rayon::scope(|s| {
+        rayon::scope(|s| {
+            for entry in &mut self.entries {
                 s.spawn(|_| {
                     // If the `Monitor` has not been checked,
                     // or if the `Monitor` has not been checked in the specified amount of time,
                     // check the `Monitor`.
                     let mut entry = entry.lock().unwrap();
-                    if entry.last_checked.is_none() || entry.last_checked.unwrap().elapsed() >= entry.wait_time {
+                    if entry.last_checked.is_none() || 
+                       entry.last_checked.unwrap().elapsed() >= entry.wait_time {
+
                         entry.last_checked = Some(Instant::now());
                         match entry.monitor.check() {
                             Action::Alert(diagnostic) => {
@@ -67,8 +69,6 @@ impl<'a> Schedule<'a> {
                                     // If the `Alert` fails to send the message, log the error
                                     // and don't update the `has_fired` flag, this will cause the 
                                     // `Alert` to be sent again on the next iteration.
-                                    //
-                                    // TODO: Add a retry mechanism for alert sending.
                                     if let Err(e) = entry.alert.send(&entry.fire_message, diagnostic) {
                                         error!("{e}");
                                     } else {
@@ -88,8 +88,8 @@ impl<'a> Schedule<'a> {
                         }
                     }
                 });
-            });
-        }
+            }
+        });
     }
 }
 
