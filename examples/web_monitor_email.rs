@@ -43,7 +43,7 @@ fn main() {
 
     let web_monitor = web::Availability::new(&http_url);
 
-    let mut scheduler = Schedule::new()
+    let mut scheduler = Schedule::default()
         .add(
             &format!("The Gargoyle has detected that {http_url} has gone down"),
             &format!("The Gargoyle has detected that {http_url} has recovered"),

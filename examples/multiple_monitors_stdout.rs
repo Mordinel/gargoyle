@@ -10,18 +10,16 @@ fn main() {
     env_logger::init();
 
     // Create a new `Stdout` instance of `Alert`.
-    let stdout_alert = alert::Stdout;
+    let stdout_alert = alert::Stdout::default();
 
     // Create a new `local::ExactService` instance of `Monitor`.
-    let top_monitor = local::ExactService {
-        process_name: "top".to_string(),
-    };
+    let top_monitor = local::ExactService::new("top");
 
     // Create a new `web::Availability` instance of `Monitor`.
     let web_monitor = web::Availability::new("http://127.0.0.1:9001/index.html");
 
     // Create a new `Schedule` instance and add the monitors and alerts to it.
-    let mut scheduler = Schedule::new()
+    let mut scheduler = Schedule::default()
         .add("`top` has gone down",
              "`top` has recovered",
              Duration::from_secs(5),

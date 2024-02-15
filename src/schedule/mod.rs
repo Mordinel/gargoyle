@@ -22,19 +22,13 @@ struct Entry<'a> {
 }
 
 /// The `Schedule` struct represents a collection of scheduled checks.
+#[derive(Default)]
 pub struct Schedule<'a> {
     entries: Vec<Arc<Mutex<Entry<'a>>>>,
 }
 
 /// Implement the `Schedule` struct.
 impl<'a> Schedule<'a> {
-    /// Create a new `Schedule` instance.
-    pub fn new() -> Schedule<'a> {
-        Schedule {
-            entries: Vec::new(),
-        }
-    }
-
     /// Add a new entry to the `Schedule` instance.
     pub fn add<M: Monitor, A: Alert>(
         mut self, 

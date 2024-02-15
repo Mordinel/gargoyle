@@ -13,6 +13,24 @@ pub struct ExactService {
     pub process_name: String,
 }
 
+impl Service {
+    /// Create a new `Service` struct.
+    pub fn new(process_name: &str) -> Service {
+        Service {
+            process_name: process_name.to_string(),
+        }
+    }
+}
+
+impl ExactService {
+    /// Create a new `ExactService` struct.
+    pub fn new(process_name: &str) -> ExactService {
+        ExactService {
+            process_name: process_name.to_string(),
+        }
+    }
+}
+
 /// Implement the `Monitor` trait for the `Service` struct.
 impl Monitor for Service {
     /// Check the local system for a service by name.

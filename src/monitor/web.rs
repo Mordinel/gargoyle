@@ -27,17 +27,17 @@ impl Monitor for Availability {
             Ok(response) => {
                 if response.status().is_success() {
                     info!("{} is up", self.url);
-                    return Action::Nothing;
+                    Action::Nothing
                 } else {
                     info!("{} is down", self.url);
                     error!("Failed to get {} - {}", self.url, response.status());
-                    return Action::Alert(Some(format!("Failed to get {} - {}", self.url, response.status())));
+                    Action::Alert(Some(format!("Failed to get {} - {}", self.url, response.status())))
                 }
             }
             Err(_) => {
                 info!("{} is down", self.url);
                 error!("Failed to connect to {}", self.url);
-                return Action::Alert(Some(format!("Failed to connect to {}", self.url)));
+                Action::Alert(Some(format!("Failed to connect to {}", self.url)))
             }
         }
     }

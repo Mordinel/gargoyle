@@ -1,5 +1,6 @@
 use super::Alert;
 
+#[derive(Default)]
 pub struct Stdout;
 
 impl Alert for Stdout {
