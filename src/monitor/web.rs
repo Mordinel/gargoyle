@@ -31,13 +31,13 @@ impl Monitor for Availability {
                 } else {
                     info!("{} is down", self.url);
                     error!("Failed to get {} - {}", self.url, response.status());
-                    return Action::Alert;
+                    return Action::Alert(Some(format!("Failed to get {} - {}", self.url, response.status())));
                 }
             }
             Err(_) => {
                 info!("{} is down", self.url);
                 error!("Failed to connect to {}", self.url);
-                return Action::Alert;
+                return Action::Alert(Some(format!("Failed to connect to {}", self.url)));
             }
         }
     }

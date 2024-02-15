@@ -21,7 +21,7 @@ impl Monitor for Service {
         system.refresh_processes();
         if system.processes_by_name(&self.process_name).next().is_none() {
             info!("{} is down", self.process_name);
-            Action::Alert
+            Action::Alert(Some(format!("{} is down", self.process_name)))
         } else {
             info!("{} is up", self.process_name);
             Action::Nothing
@@ -37,7 +37,7 @@ impl Monitor for ExactService {
         system.refresh_processes();
         if system.processes_by_exact_name(&self.process_name).next().is_none() {
             info!("{} is down", self.process_name);
-            Action::Alert
+            Action::Alert(Some(format!("{} is down", self.process_name)))
         } else {
             info!("{} is up", self.process_name);
             Action::Nothing

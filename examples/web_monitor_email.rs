@@ -36,7 +36,6 @@ fn main() {
             Some("Admin".into()),
             alert::Address::new(smtp_to_u, smtp_to_d).expect("Invalid email address")
         ),
-        subject: format!("URGENT: Something happened to {http_url}!"),
         relay: smtp_relay,
         smtp_username,
         smtp_password,
