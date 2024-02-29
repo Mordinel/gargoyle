@@ -1,22 +1,21 @@
 use std::{thread::sleep, time::Duration};
 
 use gargoyle::{
-    alert,
-    monitor::{local, web},
-    schedule::Schedule,
+    Schedule,
+    modules::{notify, monitor},
 };
 
 fn main() {
     env_logger::init();
 
-    // Create a new `Stdout` instance of `Alert`.
-    let stdout_alert = alert::Stdout::default();
+    // Create a new `Stdout` instance of `Notifier`.
+    let stdout_notifier = notify::Stdout::default();
 
-    // Create a new `local::ExactService` instance of `Monitor`.
-    let top_monitor = local::ExactService::new("top");
+    // Create a new `ExactService` instance of `Monitor`.
+    let top_monitor = monitor::ExactService::new("top");
 
-    // Create a new `web::Availability` instance of `Monitor`.
-    let web_monitor = web::Availability::new("http://127.0.0.1:9001/index.html");
+    // Create a new `WebAvailability` instance of `Monitor`.
+    let web_monitor = monitor::WebAvailability::new("http://127.0.0.1:9001/index.html");
 
     // Create a new `Schedule` instance and add the monitors and alerts to it.
     let mut scheduler = Schedule::default()
@@ -24,13 +23,13 @@ fn main() {
              "`top` has recovered",
              Duration::from_secs(5),
              &top_monitor,
-             &stdout_alert
+             &stdout_notifier
         )
         .add("`web service` has gone down",
              "`web service` has recovered",
              Duration::from_secs(10),
              &web_monitor,
-             &stdout_alert
+             &stdout_notifier
         );
     
     loop {

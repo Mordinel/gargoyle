@@ -1,10 +1,8 @@
-pub mod local;
-pub mod web;
 
 /// The `Action` enum represents the possible actions that can occur 
 /// as a result of a monitor check.
 pub enum Action {
-    Alert(Option<String>),
+    Notify(Option<String>),
     Nothing,
 }
 

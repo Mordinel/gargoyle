@@ -29,7 +29,7 @@ Check out the [examples directory](./examples)
 
 1. Build the example of your choice
 
-        cargo build --release --example web_monitor_email
+        cargo b --release --example=web_monitor_email --features=web-monitor,email-notifier
     
 1. If needed, copy the environment file to the same location as the service file defines and
    modify its contents

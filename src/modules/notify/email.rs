@@ -1,16 +1,20 @@
 use lettre::{
-    message::Mailbox,
     Message, 
     transport::smtp::authentication::Credentials, 
     SmtpTransport, 
     Transport
 };
 
+pub use lettre::{
+    message::Mailbox,
+    Address,
+};
+
 use log::info;
 
-use super::Alert;
+use crate::notify::Notify;
 
-/// Send an email alert message.
+/// Send an email notification.
 pub struct Email {
     pub from: Mailbox,
     pub to: Mailbox,
@@ -19,9 +23,9 @@ pub struct Email {
     pub smtp_password: String,
 }
 
-/// Implement the `Alert` trait for the `Email` struct.
-impl Alert for Email {
-    /// Send an email alert message.
+/// Implement the `Notifier` trait for the `Email` struct.
+impl Notify for Email {
+    /// Send an email notification.
     fn send(&self, msg: &str, diagnostic: Option<String>) -> Result<(), String> {
         let email = Message::builder()
             .from(self.from.clone())
@@ -37,7 +41,7 @@ impl Alert for Email {
             .credentials(creds)
             .build();
 
-        info!("Sending email alert from {} to {} via {}.", self.from, self.to, self.relay);
+        info!("Sending email notification from {} to {} via {}.", self.from, self.to, self.relay);
         match mailer.send(&email) {
             Ok(_) => Ok(()),
             Err(e) => Err(format!("Failed to send email: {e}")),

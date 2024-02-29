@@ -2,9 +2,8 @@
 use std::{thread::sleep, time::Duration};
 
 use gargoyle::{
-    alert,
-    monitor::web,
-    schedule::Schedule,
+    Schedule,
+    modules::{notify, monitor},
 };
 
 fn main() {
@@ -25,23 +24,23 @@ fn main() {
     let schedule_delay = std::env::var("SCHEDULE_DELAY_SECS")
         .expect("SCHEDULE_DELAY_SECS not set")
         .parse::<u64>()
-        .expect("Invalid SCHEDULE_DELAY");
+        .expect("Invalid SCHEDULE_DELAY_SECS");
 
-    let mail_alert = alert::Email {
-        from: alert::Mailbox::new(
+    let mail_notifier = notify::Email {
+        from: notify::Mailbox::new(
             Some("The Gargoyle".into()),
-            alert::Address::new(smtp_from_u, smtp_from_d).expect("Invalid email address")
+            notify::Address::new(smtp_from_u, smtp_from_d).expect("Invalid email address")
         ),
-        to: alert::Mailbox::new(
+        to: notify::Mailbox::new(
             Some("Admin".into()),
-            alert::Address::new(smtp_to_u, smtp_to_d).expect("Invalid email address")
+            notify::Address::new(smtp_to_u, smtp_to_d).expect("Invalid email address")
         ),
         relay: smtp_relay,
         smtp_username,
         smtp_password,
     };
 
-    let web_monitor = web::Availability::new(&http_url);
+    let web_monitor = monitor::WebAvailability::new(&http_url);
 
     let mut scheduler = Schedule::default()
         .add(
@@ -49,7 +48,7 @@ fn main() {
             &format!("The Gargoyle has detected that {http_url} has recovered"),
             Duration::from_secs(schedule_delay),
             &web_monitor,
-            &mail_alert,
+            &mail_notifier,
         );
 
     loop {

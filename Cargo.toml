@@ -1,6 +1,6 @@
 [package]
 name = "gargoyle"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Mason Soroka-Gill <Mordinel@pm.me>"]
 repository = "https://github.com/Mordinel/gargoyle"
@@ -13,14 +13,31 @@ opt-level = 3
 strip = true
 lto = "fat"
 
+[features]
+email-notifier = ["dep:lettre", "dep:lettre_email"]
+web-monitor = ["dep:reqwest"]
+local-monitor = ["dep:sysinfo"]
+
 [dependencies]
-lettre = "0.11.4"
-lettre_email = "0.9.4"
+lettre = { version = "0.11.4", optional = true }
+lettre_email = { version = "0.9.4", optional = true }
 log = "0.4.20"
 rayon = "1.8.1"
-reqwest = { version = "0.11.24", features = ["blocking"] }
-sysinfo = "0.30.5"
+reqwest = { version = "0.11.24", features = ["blocking"], optional = true }
+sysinfo = { version = "0.30.5", optional = true }
 
 [dev-dependencies]
 env_logger = "0.11.2"
+
+[[example]]
+name = "multiple_monitors_stdout"
+crate-type = ["bin"]
+path = "examples/multiple_monitors_stdout.rs"
+required-features = ["web-monitor", "local-monitor"]
+
+[[example]]
+name = "web_monitor_email"
+crate-type = ["bin"]
+path = "examples/web_monitor_email.rs"
+required-features = ["web-monitor", "email-notifier"]
 
