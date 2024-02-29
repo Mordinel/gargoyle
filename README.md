@@ -15,9 +15,9 @@ Check out the [examples directory](./examples)
 
         sudo -iu gargoyle
 
-1. Ensure you have the latest stable rust toolchain installed
+1. Ensure you have the nightly rust toolchain installed and selected
 
-        rustup default stable
+        rustup default nightly
 
 1. Clone this repository into /opt/gargoyle
 
@@ -41,7 +41,7 @@ Check out the [examples directory](./examples)
 1. Modify the service file to your liking and copy it into the systemd service location
 
         exit # to stop being the gargoyle user
-        sudo cp /opt/gargoyle/web_monitor_email.service /etc/systemd/user/
+        sudo cp /opt/gargoyle/web_monitor_email.service /etc/systemd/system/
         sudo systemctl daemon-reload
 
 1. Enable the service in systemd
