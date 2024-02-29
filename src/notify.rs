@@ -5,7 +5,7 @@
 ///
 /// ```
 /// use lettre::{
-///     Addres,
+///     Address,
 ///     message::Mailbox,
 ///     Message, 
 ///     transport::smtp::authentication::Credentials, 
