@@ -40,14 +40,14 @@ fn main() {
         smtp_password,
     };
 
-    let web_monitor = monitor::WebAvailability::new(&http_url);
+    let mut web_monitor = monitor::WebAvailability::new(&http_url);
 
     let mut scheduler = Schedule::default();
     scheduler.add(
             &format!("The Gargoyle has detected that {http_url} has gone down"),
             &format!("The Gargoyle has detected that {http_url} has recovered"),
             Duration::from_secs(schedule_delay),
-            &web_monitor,
+            &mut web_monitor,
             &mail_notifier,
     );
 

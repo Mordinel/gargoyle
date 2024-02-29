@@ -12,10 +12,10 @@ fn main() {
     let stdout_notifier = notify::Stdout::default();
 
     // Create a new `ExactService` instance of `Monitor`.
-    let top_monitor = monitor::ExactService::new("top");
+    let mut top_monitor = monitor::ExactService::new("top");
 
     // Create a new `WebAvailability` instance of `Monitor`.
-    let web_monitor = monitor::WebAvailability::new("http://127.0.0.1:9001/index.html");
+    let mut web_monitor = monitor::WebAvailability::new("http://127.0.0.1:9001/index.html");
 
     // Create a new `Schedule` instance and add the monitors and alerts to it.
     let mut scheduler = Schedule::default();
@@ -23,14 +23,14 @@ fn main() {
         "`top` has gone down",
         "`top` has recovered",
         Duration::from_secs(5),
-        &top_monitor,
+        &mut top_monitor,
         &stdout_notifier
     );
     scheduler.add(
         "`web service` has gone down",
         "`web service` has recovered",
         Duration::from_secs(10),
-        &web_monitor,
+        &mut web_monitor,
         &stdout_notifier
     );
     

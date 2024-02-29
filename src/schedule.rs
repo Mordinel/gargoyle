@@ -14,7 +14,7 @@ struct Entry<'a> {
     /// The amount of time to wait between checks.
     wait_time: Duration,
     /// The monitor to check.
-    monitor: &'a dyn Monitor,
+    monitor: &'a mut dyn Monitor,
     /// The notifier to send if the monitor fires.
     notifier: &'a dyn Notify,
     /// Whether the monitor has fired.
@@ -22,6 +22,31 @@ struct Entry<'a> {
 }
 
 /// The `Schedule` struct represents a collection of scheduled checks.
+/// 
+/// # Example
+///
+/// ```
+/// # use std::thread::sleep;
+/// # use std::time::Duration;
+/// use gargoyle::{modules::{monitor, notify}, Schedule};
+/// let process_name = "top";
+/// let service_monitor = monitor::ExactService::new(process_name);
+/// let stdout_notifier = notify::Stdout;
+/// let mut schedule = Schedule::default();
+/// schedule.add(
+///     &format!("The Gargoyle has detected that {process_name} has gone down"),
+///     &format!("The Gargoyle has detected that {process_name} has recovered"),
+///     Duration::from_secs(30),
+///     &service_monitor,
+///     &stdout_notifier,
+/// );
+///
+/// loop {
+///    schedule.run();
+///    sleep(Duration::from_millis(100));
+/// }
+/// ```
+#[must_use]
 pub struct Schedule<'a> {
     entries: Vec<Arc<Mutex<Entry<'a>>>>,
 }
@@ -43,7 +68,7 @@ impl<'a> Schedule<'a> {
         fire_message: &str,
         recover_message: &str,
         wait_time: Duration, 
-        monitor: &'a M, 
+        monitor: &'a mut M, 
         notifier: &'a N
     ) {
         self.entries.push(Arc::new(Mutex::new( Entry {

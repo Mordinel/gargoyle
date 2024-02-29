@@ -15,6 +15,36 @@ use log::info;
 use crate::notify::Notify;
 
 /// Send an email notification.
+///
+/// # Example
+///
+/// ```
+/// # use std::thread::sleep;
+/// # use std::time::Duration;
+/// use gargoyle::{modules::{notify, monitor}, Schedule};
+/// let service_name = "nginx";
+/// let service_monitor = monitor::ExactService::new(service_name);
+/// let email_notifier = notify::Email {
+///     from: "The Gargoyle <from@example.com>".parse().unwrap(),
+///     to: "Administrator <admin@example.com>".parse().unwrap(),
+///     relay: "smtp.example.com".to_string(),
+///     smtp_username: "username".to_string(),
+///     smtp_password: "password".to_string(),
+/// };
+/// let mut schedule = Schedule::default();
+/// schedule.add(
+///     &format!("The Gargoyle has detected that {service_name} has gone down"),
+///     &format!("The Gargoyle has detected that {service_name} has recovered"),
+///     Duration::from_secs(60),
+///     &service_monitor,
+///     &email_notifier,
+/// );
+///     
+/// loop {
+///     schedule.run();
+///     sleep(Duration::from_millis(100));
+/// }
+/// ```
 pub struct Email {
     pub from: Mailbox,
     pub to: Mailbox,
@@ -23,9 +53,8 @@ pub struct Email {
     pub smtp_password: String,
 }
 
-/// Implement the `Notifier` trait for the `Email` struct.
+/// Sends an email notification.
 impl Notify for Email {
-    /// Send an email notification.
     fn send(&self, msg: &str, diagnostic: Option<String>) -> Result<(), String> {
         let email = Message::builder()
             .from(self.from.clone())

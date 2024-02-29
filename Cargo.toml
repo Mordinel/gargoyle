@@ -1,6 +1,6 @@
 [package]
 name = "gargoyle"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Mason Soroka-Gill <Mordinel@pm.me>"]
 repository = "https://github.com/Mordinel/gargoyle"
@@ -22,15 +22,16 @@ web-monitor = ["dep:reqwest"]
 local-monitor = ["dep:sysinfo"]
 
 [dependencies]
-lettre = { version = "0.11.4", optional = true }
-lettre_email = { version = "0.9.4", optional = true }
 log = "0.4.20"
 rayon = "1.8.1"
+lettre = { version = "0.11.4", optional = true }
+lettre_email = { version = "0.9.4", optional = true }
 reqwest = { version = "0.11.24", features = ["blocking"], optional = true }
 sysinfo = { version = "0.30.5", optional = true }
 
 [dev-dependencies]
 env_logger = "0.11.2"
+#gargoyle = { path = ".", features = ["email-notifier", "web-monitor", "local-monitor"] }
 
 [[example]]
 name = "multiple_monitors_stdout"
