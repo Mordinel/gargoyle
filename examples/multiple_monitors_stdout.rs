@@ -18,19 +18,21 @@ fn main() {
     let web_monitor = monitor::WebAvailability::new("http://127.0.0.1:9001/index.html");
 
     // Create a new `Schedule` instance and add the monitors and alerts to it.
-    let mut scheduler = Schedule::default()
-        .add("`top` has gone down",
-             "`top` has recovered",
-             Duration::from_secs(5),
-             &top_monitor,
-             &stdout_notifier
-        )
-        .add("`web service` has gone down",
-             "`web service` has recovered",
-             Duration::from_secs(10),
-             &web_monitor,
-             &stdout_notifier
-        );
+    let mut scheduler = Schedule::default();
+    scheduler.add(
+        "`top` has gone down",
+        "`top` has recovered",
+        Duration::from_secs(5),
+        &top_monitor,
+        &stdout_notifier
+    );
+    scheduler.add(
+        "`web service` has gone down",
+        "`web service` has recovered",
+        Duration::from_secs(10),
+        &web_monitor,
+        &stdout_notifier
+    );
     
     loop {
         scheduler.run();

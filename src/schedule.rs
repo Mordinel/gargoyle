@@ -22,22 +22,30 @@ struct Entry<'a> {
 }
 
 /// The `Schedule` struct represents a collection of scheduled checks.
-#[derive(Default)]
 pub struct Schedule<'a> {
     entries: Vec<Arc<Mutex<Entry<'a>>>>,
+}
+
+/// Implement the `Default` trait for the `Schedule` struct.
+impl Default for Schedule<'_> {
+    fn default() -> Self {
+        Schedule {
+            entries: Vec::new(),
+        }
+    }
 }
 
 /// Implement the `Schedule` struct.
 impl<'a> Schedule<'a> {
     /// Add a new entry to the `Schedule` instance.
     pub fn add<M: Monitor, N: Notify>(
-        mut self, 
+        &mut self,
         fire_message: &str,
         recover_message: &str,
         wait_time: Duration, 
         monitor: &'a M, 
         notifier: &'a N
-    ) -> Schedule<'a> {
+    ) {
         self.entries.push(Arc::new(Mutex::new( Entry {
             fire_message: fire_message.to_string(),
             recover_message: recover_message.to_string(),
@@ -47,7 +55,6 @@ impl<'a> Schedule<'a> {
             notifier,
             has_fired: false,
         })));
-        self
     }
 
     /// Run the `Schedule` instance and check all the monitors for notifications 
