@@ -1,5 +1,8 @@
-use log::{info, error};
+
+#[cfg(feature = "web-monitor")]
 pub use reqwest::blocking::Client;
+
+use log::{info, error};
 use crate::monitor::{Action, Monitor};
 
 

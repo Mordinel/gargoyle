@@ -1,4 +1,4 @@
-#![cfg_attr(docsrs, feature(doc_cfg))]
+#![feature(doc_auto_cfg)]
 
 mod notify;
 pub use notify::*;
