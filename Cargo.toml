@@ -10,6 +10,7 @@ license = "Apache-2.0"
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [profile.release]
 opt-level = 3
@@ -31,7 +32,6 @@ sysinfo = { version = "0.30.5", optional = true }
 
 [dev-dependencies]
 env_logger = "0.11.2"
-#gargoyle = { path = ".", features = ["email-notifier", "web-monitor", "local-monitor"] }
 
 [[example]]
 name = "multiple_monitors_stdout"

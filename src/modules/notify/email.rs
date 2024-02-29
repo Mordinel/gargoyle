@@ -5,6 +5,7 @@ use lettre::{
     Transport
 };
 
+#[cfg_attr(docsrs, doc(cfg(feature = "email-notifier")))]
 pub use lettre::{
     message::Mailbox,
     Address,
