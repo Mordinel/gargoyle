@@ -1,11 +1,13 @@
-# gargoyle
+# Gargoyle
 A monitoring and alerting framework
 
-# usage in your code
+[Docs](https://docs.rs/gargoyle/latest)
+
+# Usage in your code
 
 Check out the [examples directory](./examples)
 
-# setup
+# Setup
 
 1. Create a new user on the server
 
