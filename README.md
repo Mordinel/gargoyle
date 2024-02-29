@@ -25,6 +25,7 @@ Check out the [examples directory](./examples)
         chown gargoyle:gargoyle /opt/gargoyle
         chmod 700 /opt/gargoyle
         git clone https://github.com/Mordinel/gargoyle.git /opt/gargoyle
+        git checkout v0.1.2
         cd /opt/gargoyle
 
 1. Build the example of your choice
