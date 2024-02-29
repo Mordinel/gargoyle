@@ -8,6 +8,9 @@ description = "A monitoring and alerting framework"
 readme = "README.md"
 license = "Apache-2.0"
 
+[package.metadata.docs.rs]
+all-features = true
+
 [profile.release]
 opt-level = 3
 strip = true
