@@ -1,6 +1,6 @@
 [package]
 name = "gargoyle"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["Mason Soroka-Gill <Mordinel@pm.me>"]
 repository = "https://github.com/Mordinel/gargoyle"
