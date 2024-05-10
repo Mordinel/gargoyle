@@ -2,7 +2,11 @@
 /// The `Action` enum represents the possible actions that can occur 
 /// as a result of a monitor check.
 pub enum Action {
-    Notify(Option<String>),
+    /// `Update` Fires a message every time it is sent.
+    Update { message: Option<String> },
+    /// `Notify` Fires when a monitor changes from sending `Nothing` to `Notify` and vice versa.
+    Notify { diagnostic: Option<String> },
+    /// `Nothing` only fires a message if a `Notify` has already fired.
     Nothing,
 }
 

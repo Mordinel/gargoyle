@@ -79,13 +79,17 @@ impl Monitor for WebAvailability {
                 } else {
                     info!("{} is down", self.url);
                     error!("Failed to get {} - {}", self.url, response.status());
-                    Action::Notify(Some(format!("Failed to get {} - {}", self.url, response.status())))
+                    Action::Notify {
+                        diagnostic: Some(format!("Failed to get {} - {}", self.url, response.status())),
+                    }
                 }
             }
             Err(_) => {
                 info!("{} is down", self.url);
                 error!("Failed to connect to {}", self.url);
-                Action::Notify(Some(format!("Failed to connect to {}", self.url)))
+                Action::Notify {
+                    diagnostic: Some(format!("Failed to connect to {}", self.url)),
+                }
             }
         }
     }

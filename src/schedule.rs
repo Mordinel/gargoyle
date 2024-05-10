@@ -103,7 +103,12 @@ fn handle_entry(entry: &mut Entry) {
     if entry.last_checked.is_none() || entry.last_checked.unwrap().elapsed() >= entry.wait_time {
         entry.last_checked = Some(Instant::now());
         match entry.monitor.check() {
-            Action::Notify(diagnostic) => {
+            Action::Update { message } => {
+                if let Err(e) = entry.notifier.send(&entry.fire_message, message) {
+                    error!("{e}");
+                }
+            },
+            Action::Notify { diagnostic } => {
                 if !entry.has_fired {
                     // If the `entry.notifier` fails to send the message, log the error
                     // and don't update the `has_fired` flag, this will cause the 
@@ -114,7 +119,7 @@ fn handle_entry(entry: &mut Entry) {
                         entry.has_fired = true;
                     }
                 }
-            }
+            },
             Action::Nothing => {
                 if entry.has_fired {
                     if let Err(e) = entry.notifier.send(&entry.recover_message, None) {
@@ -123,7 +128,7 @@ fn handle_entry(entry: &mut Entry) {
                         entry.has_fired = false;
                     }
                 }
-            }
+            },
         }
     }
 }
